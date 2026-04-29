@@ -12,7 +12,7 @@ class ClientListCreate(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        user = user.request.user
+        user = self.request.user
         return Client.objects.filter(username=user)
     
     def perform_create(self, serializer):

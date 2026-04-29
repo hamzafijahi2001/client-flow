@@ -17,5 +17,5 @@ class ClientSerializer(serializers.ModelSerializer):
     class Meta:
         model = Client
         fields = "__all__"
-        extra_kwargs = {"author": {"read_only": True}}
+        extra_kwargs = {"username": {"read_only": True}}
         

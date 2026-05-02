@@ -18,3 +18,19 @@ class Client(models.Model):
     
     def __str__(self):
         return self.name
+    
+class Project(models.Model):
+    title = models.CharField(max_length=20)
+    description = models.TextField()
+    deadline = models.DateTimeField()
+    status_choices = (
+    (1, "planning"),
+    (2, "active"),
+    (3, "done"),)
+    status = models.CharField(max_length=9,
+                  choices=status_choices,
+                  default=2)
+    client = models.ForeignKey(Client, on_delete=models.CASCADE, related_name="projects")
+    
+    def __str__(self):
+        return self.title

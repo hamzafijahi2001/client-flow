@@ -34,3 +34,21 @@ class Project(models.Model):
     
     def __str__(self):
         return self.title
+    
+class Task(models.Model):
+    title = models.CharField(max_length=20)
+    description = models.TextField()
+    deadline = models.DateField()
+    priority_choices = (
+    (1, "Must Have"),
+    (2, "Should Have"),
+    (3, "Could Have"),
+    (4, "Won't Have"),)
+    priority = models.IntegerField(
+                  choices=priority_choices,
+                  default=2)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name="projects")
+    #users = models.ForeignKey(User, on_delete=models.CASCADE, related_name="assigned users")
+    
+    def __str__(self):
+        return self.title

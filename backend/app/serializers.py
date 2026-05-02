@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from .models import Client,Project
+from .models import Client,Project,Task
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -24,4 +24,10 @@ class ProjectSerializer(serializers.ModelSerializer):
         model = Project
         fields = "__all__"
         extra_kwargs = {"client": {"read_only": True}}
+
+class TaskSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Task
+        fields = "__all__"
+        extra_kwargs = {"project": {"read_only": True}}
         

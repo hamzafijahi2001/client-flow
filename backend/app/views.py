@@ -36,15 +36,13 @@ class ProjectListCreate(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        user = self.request.user
         client_id = self.kwargs["client_pk"]
-        return Project.objects.filter(username=user,client=client_id)
+        return Project.objects.filter(client_id=client_id)
     
     def perform_create(self, serializer):
         if serializer.is_valid():
-            user = self.request.user
             client_id = self.kwargs["client_pk"]
-            serializer.save(username=user,client=client_id)
+            serializer.save(client_id=client_id)
         else:
             print(serializer.errors)
 
@@ -53,9 +51,8 @@ class ProjectDelete(generics.DestroyAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        user = self.request.user
         client_id = self.kwargs["client_pk"]
-        return Project.objects.filter(username=user,client=client_id)
+        return Project.objects.filter(client_id=client_id)
 
 class CreateUserView(generics.CreateAPIView):
     queryset = User.objects.all()

@@ -10,6 +10,7 @@ function Projects({client}){
     const [title, setTitle] = useState("")
     const [description, setDescription] = useState("")
     const [deadline, setDeadline] = useState("")
+    const [status, setStatus] = useState("")
 
     const getProject = () => {
         api.get(`/api/clients/${clientId}/projects/`)
@@ -33,7 +34,7 @@ function Projects({client}){
 
     const createProject = (e) =>{
         e.preventDefault()
-        api.post(`/api/clients/${clientId}/projects/`,{ title , description, deadline })
+        api.post(`/api/clients/${clientId}/projects/`,{ title , description, deadline, status })
         .then((res)=>{
             if(res.status === 201){ alert("Project Created!");
                     getProject(); }
@@ -56,6 +57,13 @@ function Projects({client}){
         <label htmlFor="content">deadline:</label>
         <br />
         <input type="datetime-local" id="deadline" name="deadline" required value={deadline} onChange={(e)=>setDeadline(e.target.value)}></input>
+        <label htmlFor="status">status:</label>
+        <br />
+        <select value={status} onChange={(e) => setStatus(e.target.value)}>
+        <option value={1}>Planning</option>
+        <option value={2}>Active</option>
+        <option value={3}>Done</option>
+        </select>
         <br />
         <input type="submit" value="Submit"></input>
         </form>

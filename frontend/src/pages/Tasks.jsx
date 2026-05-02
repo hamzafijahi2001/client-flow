@@ -10,6 +10,7 @@ function Tasks({project}){
     const [title, setTitle] = useState("")
     const [description, setDescription] = useState("")
     const [deadline, setDeadline] = useState("")
+    const [priority, setPriority] = useState("")
 
     const getTask = () => {
         api.get(`/api/clients/${clientId}/projects/${projectId}/tasks/`)
@@ -33,7 +34,7 @@ function Tasks({project}){
 
     const createTask = (e) =>{
         e.preventDefault()
-        api.post(`/api/clients/${clientId}/projects/${projectId}/tasks/`,{ title , description, deadline })
+        api.post(`/api/clients/${clientId}/projects/${projectId}/tasks/`,{ title , description, deadline, priority })
         .then((res)=>{
             if(res.status === 201){ alert("Task Created!");
                     getTask(); }
@@ -56,6 +57,14 @@ function Tasks({project}){
         <label htmlFor="content">deadline:</label>
         <br />
         <input type="date" id="due-date" name="due date" required value={deadline} onChange={(e)=>setDeadline(e.target.value)}></input>
+        <label htmlFor="status">status:</label>
+        <br />
+        <select value={priority} onChange={(e) => setPriority(e.target.value)}>
+        <option value={1}>Must Have</option>
+        <option value={2}>Should Have</option>
+        <option value={3}>Could Have</option>
+        <option value={4}>Won't Have</option>
+        </select>
         <br />
         <input type="submit" value="Submit"></input>
         </form>

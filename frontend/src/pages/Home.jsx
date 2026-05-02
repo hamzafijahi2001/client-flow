@@ -8,6 +8,7 @@ function Home(){
     const [email, setEmail] = useState("")
     const [name, setName] = useState("")
     const [phone, setPhone] = useState("")
+    const [status, setStatus] = useState(2);
 
     const getClient = () => {
         api.get("/api/clients/")
@@ -32,13 +33,14 @@ function Home(){
 
     const createClient = (e) =>{
         e.preventDefault()
-        api.post("/api/clients/",{ name , email, phone })
+        api.post("/api/clients/",{ name , email, phone, status })
         .then((res)=>{
-            if(res.status === 201) alert("Client Created!");
-            else alert("Failed to create client")
+            if(res.status === 201){ alert("Client Created!");
+            getClient(); 
+            } else alert("Failed to create client")
         })
         .catch((err)=> alert(err));
-        getClient();    
+           
     }
 
     return( <div>
@@ -48,12 +50,20 @@ function Home(){
             <label htmlFor="name">name:</label>
         <br />
         <input type="text" id="name" name="name" required onChange={(e)=>setName(e.target.value)} value={name}></input>
-        <label htmlFor="content">email:</label>
+        <label htmlFor="email">email:</label>
         <br/>
         <input type="email" id="email" name="email" required value={email} onChange={(e)=>setEmail(e.target.value)}></input>
-        <label htmlFor="content">phone:</label>
+        <label htmlFor="phone">phone:</label>
         <br />
         <input type="text" id="phone" name="phone" required value={phone} onChange={(e)=>setPhone(e.target.value)}></input>
+        <br />
+        <label htmlFor="status">status:</label>
+        <br />
+        <select value={status} onChange={(e) => setStatus(e.target.value)}>
+        <option value={1}>Lead</option>
+        <option value={2}>Active</option>
+        <option value={3}>Archived</option>
+        </select>
         <br />
         <input type="submit" value="Submit"></input>
         </form>

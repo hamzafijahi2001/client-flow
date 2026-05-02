@@ -11,7 +11,7 @@ class Client(models.Model):
     (1, "lead"),
     (2, "active"),
     (3, "archived"),)
-    status = models.CharField(max_length=9,
+    status = models.IntegerField(
                   choices=status_choices,
                   default=2)
     username = models.ForeignKey(User, on_delete=models.CASCADE, related_name="clients")
@@ -27,7 +27,7 @@ class Project(models.Model):
     (1, "planning"),
     (2, "active"),
     (3, "done"),)
-    status = models.CharField(max_length=9,
+    status = models.IntegerField(
                   choices=status_choices,
                   default=2)
     client = models.ForeignKey(Client, on_delete=models.CASCADE, related_name="projects")

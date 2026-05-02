@@ -22,10 +22,12 @@ function Home(){
     const deleteClient = (id) => {
         api.delete(`/api/clients/delete/${id}/`)
         .then((res)=>{
-            if(res.status===204) alert("Client deleted!")
+            if(res.status===204){ alert("Client deleted!")
+                getClient()
+            }
             else alert("Failed to delete client")
         }).catch((err)=> alert(err))
-        getClient()
+        
     }
 
     const createClient = (e) =>{

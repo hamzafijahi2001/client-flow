@@ -61,7 +61,7 @@ function Projects({client}){
         </form>
         <div>
             <h2>Project</h2>
-            {projects.map((project)=><Project project={project} onDelete={deleteProject} key={project.id}></Project>)}
+            {projects.map((project)=><Project client_id={clientId} project={project} onDelete={deleteProject} key={project.id}></Project>)}
 
         </div>
     </div>)

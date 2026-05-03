@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,get_object_or_404
 from django.contrib.auth.models import User
 from .serializers import UserSerializer, ClientSerializer, ProjectSerializer,TaskSerializer
 from rest_framework import generics
@@ -37,12 +37,17 @@ class ProjectListCreate(generics.ListCreateAPIView):
 
     def get_queryset(self):
         client_id = self.kwargs["client_pk"]
-        return Project.objects.filter(client_id=client_id)
+        return Project.objects.filter(client_id=client_id,client__username=self.request.user)
     
     def perform_create(self, serializer):
         if serializer.is_valid():
             client_id = self.kwargs["client_pk"]
-            serializer.save(client_id=client_id)
+            client = get_object_or_404(
+                Client,
+                id=client_id,
+                username=self.request.user
+            )
+            serializer.save(client=client)
         else:
             print(serializer.errors)
 

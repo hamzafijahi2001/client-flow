@@ -237,3 +237,8 @@ bower_components
 psd
 thumb
 sketch
+
+**/*.tfstate
+**/*.tfstate.*
+**/.terraform/*
+**/.terraform.lock.hcl

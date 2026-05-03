@@ -17,7 +17,7 @@ function Client({client, onDelete}) {
         <p className="client-email">{client.email}</p>
         <p className="client-phone">{client.phone}</p>
         <p className="client-status">{statusMap[client.status]}</p>
-        <button className="delete-button" onClick={()=> { e.stopPropagation(); onDelete(client.id);}}> delete </button>
+        <button className="delete-button" onClick={(e)=> { e.stopPropagation(); onDelete(client.id);}}> delete </button>
         </div>
 }
 

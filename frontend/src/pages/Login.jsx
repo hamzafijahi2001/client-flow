@@ -1,5 +1,13 @@
 import Form from "../components/Form";
+import { Link } from "react-router-dom";
+
 function Login(){
-    return   <Form route="/api/token/" method="login"></Form>
+    return (  <div>
+        <Form route="/api/token/" method="login"></Form>
+        <p>
+        Don't have an account?{" "}
+        <Link to="/register">Register</Link>
+      </p>
+    </div> )
 }
 export default Login;

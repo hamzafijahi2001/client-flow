@@ -6,7 +6,7 @@ from .models import Client,Project,Task
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ["id","username","password"]
+        fields = ["id","email","first_name","last_name","username","password"]
         extra_kwargs = {"password":{"write_only":True}}
 
     def create(self, validated_data):

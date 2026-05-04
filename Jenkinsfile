@@ -5,7 +5,7 @@ pipeline {
         stage('[backend] venv'){
             steps {
                 echo "--------------Activating the virtual env--------------"
-                sh 'source ${venv}/bin/activate'
+                bash "source ${venv}/bin/activate"
                 echo "----------------Installing python requirements-----------"
                 sh 'python -m pip install -r requirements.txt'
             }

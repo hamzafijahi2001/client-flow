@@ -1,4 +1,3 @@
-def venv = '/home/ubuntu/venv'
 pipeline {
     agent{
         node {
@@ -6,26 +5,20 @@ pipeline {
         }
     }
     stages {
-        stage('[backend] Installing packages'){
+        stage('[backend] setup + test') {
             steps {
-                echo "----------------Installing python requirements-----------"
-                sh "${venv}/bin/pip install -r requirements.txt"
-            }
-        }
-        stage('[backend] run tests') {
-            steps {
-                echo '-----------------------------Test started---------------------------'
-                sh "${venv}/bin/pip backend/manage.py makemigrations"
-                sh "${venv}/bin/pip backend/manage.py migrate"
-                sh "${venv}/bin/pip backend/manage.py test"
-            }
-        }
-        stage('[backend] coverage') {
-            steps {
-                echo '-----------------------------Running coverage---------------------------'
-                sh "${venv}/bin/coverage backend/manage.py test"
-                sh "${venv}/bin/coverage xml -o backend/coverage.xml"
-                sh "${venv}/bin/pip backend/manage.py test"
+                dir('backend') {
+                    echo '-----------------------------Running test coverage---------------------------'
+                    sh '''
+                    rm -rf .venv
+                    python3 -m venv .venv
+                    .venv/bin/pip install --upgrade pip
+                    .venv/bin/pip install -r requirements.txt
+                    .venv/bin/python manage.py test
+                    .venv/bin/coverage manage.py test
+                    .venv/bin/coverage xml -o coverage.xml
+                    '''
+                }
             }
         }
         stage('[frontend] test'){

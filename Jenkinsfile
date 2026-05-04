@@ -1,6 +1,10 @@
 def venv = '/home/ubuntu/venv'
 pipeline {
-    agent any
+    agent{
+        node {
+            label 'build'
+        }
+    }
     stages {
         stage('[backend] Installing packages'){
             steps {

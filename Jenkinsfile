@@ -6,8 +6,6 @@ pipeline {
             steps {
                 echo "--------------Activating the virtual env--------------"
                 sh 'source ${venv}/bin/activate'
-            }
-            steps{
                 echo "----------------Installing python requirements-----------"
                 sh 'python -m pip install -r requirements.txt'
             }
@@ -22,7 +20,6 @@ pipeline {
                 sh 'cd ..'
             }
         }
-
         stage('[frontend] test'){
             steps {
                 sh 'cd frontend && npm install'
@@ -30,7 +27,6 @@ pipeline {
             }
         }
 
-        stage('SonarQube')
 
     }
 }

@@ -3,5 +3,9 @@
     "axios": "^1.15.2",
     "jwt-decode": "^4.0.0",
     "react-router-dom": "^7.14.2"
-  }
+  },
+  "scripts": {
+  "test": "vitest",
+  "test:coverage": "vitest run --coverage"
+}
 }

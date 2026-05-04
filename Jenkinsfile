@@ -2,28 +2,34 @@ def venv = '/home/ubuntu/venv'
 pipeline {
     agent any
     stages {
-        stage('[backend] venv'){
+        stage('[backend] Installing packages'){
             steps {
-                echo "--------------Activating the virtual env--------------"
-                bash "source ${venv}/bin/activate"
                 echo "----------------Installing python requirements-----------"
-                sh 'python -m pip install -r requirements.txt'
+                sh "${venv}/bin/pip install -r requirements.txt"
             }
         }
-        stage('[backend] test') {
+        stage('[backend] run tests') {
             steps {
                 echo '-----------------------------Test started---------------------------'
-                sh 'cd backend'
-                sh 'python manage.py makemigrations'
-                sh 'python manage.py migrate'
-                sh 'python manage.py test'
-                sh 'cd ..'
+                sh "${venv}/bin/pip backend/manage.py makemigrations"
+                sh "${venv}/bin/pip backend/manage.py migrate"
+                sh "${venv}/bin/pip backend/manage.py test"
+            }
+        }
+        stage('[backend] coverage') {
+            steps {
+                echo '-----------------------------Running coverage---------------------------'
+                sh "${venv}/bin/coverage backend/manage.py test"
+                sh "${venv}/bin/coverage xml -o backend/coverage.xml"
+                sh "${venv}/bin/pip backend/manage.py test"
             }
         }
         stage('[frontend] test'){
             steps {
-                sh 'cd frontend && npm install'
-                sh 'npm run test'
+                dir('frontend') {
+                    sh 'npm install'
+                    sh 'npm run test:coverage'
+                }
             }
         }
 

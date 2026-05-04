@@ -1,0 +1,43 @@
+---
+- hosts: jenkins-master
+  become: true
+  tasks:
+  - name: Update all the packages to their latest version
+    ansible.builtin.apt:
+      name: "*"
+      state: latest
+  
+  - name: Add an Apt signing key
+    ansible.builtin.apt_key:
+      url: https://pkg.jenkins.io/debian-stable/jenkins.io-2026.key
+      state: present
+  
+  - name: Add jenkins repository into sources list
+    ansible.builtin.apt_repository:
+      repo: "deb [trusted=yes] https://pkg.jenkins.io/debian-stable binary/"
+      state: present
+  
+  - name: Install Java
+    ansible.builtin.apt:
+      name: openjdk-21-jre
+      state: present
+
+  - name: Update all the packages to their latest version
+    ansible.builtin.apt:
+      name: "*"
+      state: latest
+  
+  - name: Install Jenkins
+    ansible.builtin.apt:
+      name: jenkins
+      state: present
+  
+  - name: Start Jenkins service
+    ansible.builtin.service:
+        name: jenkins
+        state: started
+  
+  - name: Enable jenkins to start at boot time 
+    service: 
+      name: jenkins 
+      enabled: yes 

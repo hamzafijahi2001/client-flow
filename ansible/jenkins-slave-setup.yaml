@@ -1,0 +1,66 @@
+---
+- hosts: jenkins-slave
+  become: true 
+  vars:
+    venv_path: /home/ubuntu/venv
+  tasks: 
+  - name: Update all the packages to their latest version
+    ansible.builtin.apt:
+      name: "*"
+      state: latest
+      
+  - name: Install Python
+    ansible.builtin.apt:
+      name: 
+        - python3
+        - python3-pip
+      state: present
+      update_cache: yes
+
+  - name: Install Python venv package
+    ansible.builtin.apt:
+      name: python3-venv
+      state: present
+      update_cache: yes
+
+  - name: Create virtual environment
+    command: python3 -m venv {{ venv_path }}
+    args:
+      creates: "{{ venv_path }}/bin/activate"
+
+  - name: Install Java
+    ansible.builtin.apt:
+      name: openjdk-21-jre
+      state: present
+      
+  - name: Install nodejs
+    ansible.builtin.apt:
+      name: nodejs
+      state: present
+
+  - name: Install npm
+    ansible.builtin.apt:
+      name: npm
+      state: present
+
+  - name: install docker 
+    apt: 
+      name: docker.io 
+      state: present
+
+  - name: start docker services 
+    service: 
+      name: docker 
+      state: started 
+  
+  - name: give 777 permissions on /var/run/docker.sock
+    file: 
+      path: /var/run/docker.sock
+      state: file 
+      mode: 0777
+
+  - name: start docker on boot time 
+    service: 
+      name: docker 
+      enabled: yes 
+      

@@ -15,7 +15,7 @@ pipeline {
                     .venv/bin/pip install --upgrade pip
                     .venv/bin/pip install -r ../requirements.txt
                     .venv/bin/python manage.py test
-                    .venv/bin/coverage manage.py test
+                    .venv/bin/coverage run manage.py test
                     .venv/bin/coverage xml -o coverage.xml
                     '''
                 }

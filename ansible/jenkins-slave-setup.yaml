@@ -6,8 +6,7 @@
   tasks: 
   - name: Update all the packages to their latest version
     ansible.builtin.apt:
-      name: "*"
-      state: latest
+      update_cache: yes
       
   - name: Install Python
     ansible.builtin.apt:
@@ -23,25 +22,35 @@
       state: present
       update_cache: yes
 
-  - name: Create virtual environment
-    command: python3 -m venv {{ venv_path }}
-    args:
-      creates: "{{ venv_path }}/bin/activate"
-
   - name: Install Java
     ansible.builtin.apt:
       name: openjdk-21-jre
       state: present
+  - name: Install curl and ca-certificates
+    apt:
+      name:
+        - curl
+        - ca-certificates
+        - gnupg
+      state: present
+      update_cache: yes
+
+  - name: Add NodeSource Node 22 repository
+    shell: |
+      curl -fsSL https://deb.nodesource.com/setup_22.x | bash -
+    args:
+      creates: /etc/apt/sources.list.d/nodesource.list
       
   - name: Install nodejs
     ansible.builtin.apt:
       name: nodejs
-      state: present
+      state: latest
+      update_cache: yes
 
   - name: Install npm
     ansible.builtin.apt:
       name: npm
-      state: present
+      state: latest
 
   - name: install docker 
     apt: 

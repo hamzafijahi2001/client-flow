@@ -29,16 +29,48 @@ pipeline {
                 }
             }
         }
-        stage('SonarQube analysis') {
-            environment {
-                scannerHome = tool 'sonar-scanner'
+        stage('[backend] Code Quality (Python)') {
+            steps {
+                dir('backend') {
+                    sh '''
+                    echo "Installing Python tools..."
+                    .venv/bin/pip install --no-cache-dir ruff bandit
+
+                    echo "Running Ruff..."
+                    .venv/bin/ruff check . > ruff-report.txt || true
+
+                    echo "Running Bandit..."
+                    .venv/bin/bandit -r . -f json -o bandit-report.json || true
+                    '''
+                }
             }
-            steps{
-                withSonarQubeEnv('sonar-server') {
-                    sh "${scannerHome}/bin/sonar-scanner"
+            post {
+                always {
+                    archiveArtifacts artifacts: 'backend/*.txt, backend/*.json', fingerprint: true
                 }
             }
         }
+
+        stage('[frontend] Code Quality (React)') {
+            steps {
+                dir('frontend') {
+                    sh '''
+                    echo "Installing Node dependencies..."
+                    npm install
+
+                    echo "Running ESLint..."
+                    npx eslint . > eslint-report.txt || true
+                    '''
+                }
+            }
+            post {
+                always {
+                    archiveArtifacts artifacts: 'frontend/*.txt', fingerprint: true
+                }
+            }
+        }
+
+    
 
 
     }

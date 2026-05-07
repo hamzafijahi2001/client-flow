@@ -1,0 +1,7 @@
+.register-link{
+    margin: 50px 800px 4px;
+    color: rgb(13, 10, 21);
+    font-size: clamp(0.2rem, 1vw,2.8rem);
+    font-family: "Roboto", sans-serif;
+    line-height: 1;
+}

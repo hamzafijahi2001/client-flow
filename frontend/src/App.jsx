@@ -7,6 +7,8 @@ import Home from "./pages/Home"
 import ProtectedRoute from "./components/ProtectedRoute"
 import Projects from "./pages/Projects"
 import Tasks from "./pages/Tasks"
+import './fonts/index.css';
+
 
 function Logout() {
   localStorage.clear()

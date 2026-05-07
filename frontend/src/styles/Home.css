@@ -1,0 +1,116 @@
+.clients-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(260px,1fr));
+    gap: 16px;
+}
+
+
+.client-container {
+    display:grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    min-height: 280px;
+    padding: 0;
+    border: 1px solid rgb(216, 216, 216);
+    border-radius: 10px;
+    background: white;
+    cursor: pointer;
+    transition: 
+        border-color 180ms ease,
+        box-shadow 180ms ease,
+        transform 180ms ease;
+}
+.client-container:hover {
+    border-color: aliceblue;
+    box-shadow: 0 15px 40px rgba(31, 45, 61, 0.1);
+    transform: translateY(-1px);
+}
+
+
+.client-name,
+.client-email,
+.client-phone,
+.client-status,
+.client-container .delete-button {
+    margin-inline: 15px;
+}
+
+.client-container .delete-button {
+    margin-bottom: 16px;
+}
+.delete-button:hover {
+    border-radius: 8px;
+    box-shadow: 0 15px 40px rgba(31, 45, 61, 0.1);
+    background: rgb(255, 71, 71);
+}
+/*
+.client-container p{
+    margin:0
+}*/
+
+
+.client-name{
+    color: black;
+    font-size: 1.25rem;
+    font-weight: 900;
+}
+.client-email,
+.client-phone {
+    color: rgb(106, 106, 106);
+    overflow-wrap: anywhere;
+}
+
+.client-email {
+    margin-top: 5px;
+    font-size: 0.92rem;
+}
+
+.client-status {
+    justify-self: start;
+    padding: 7px 10px;
+    border-radius: 1000px;
+    background: rgb(214, 214, 214);
+    color: rgb(71, 71, 193);
+    font-size: 0.8rem;
+    font-weight: 900;
+}
+
+.status-lead {
+    background: #fff6d7;
+    color: #946800;
+}
+.status-active {
+    background: rgb(242, 242, 212);
+    color: rgb(43, 135, 25);
+}
+.status-archived {
+    background: #eef1f4;
+    color: #627282;
+}
+
+.fab-button {
+    padding: 10px;
+    color: grey;
+    border-radius: 15px;
+    margin-left: auto; 
+    margin-right: 90;
+    background: rgb(86, 86, 192);
+    cursor: pointer;
+    width: 50px;
+    transition: 
+        border-color 180ms ease,
+        box-shadow 180ms ease,
+        transform 180ms ease;
+}
+.fab-button:hover{
+    position: 50 300;
+    border-radius: 8px;
+    box-shadow: 0 15px 40px rgba(31, 45, 61, 0.1);
+    background: rgb(180, 177, 252);
+}
+@media (max-width: 650px) {
+    .delete-button,
+    .client-status {
+        justify-self: stretch;
+    }
+}

@@ -1,7 +1,7 @@
 .form-container {
     width: min(92vw, 440px);
     margin: 8vh auto 0;
-    padding: 32px;
+    padding: 50px;
     border: 1px solid rgba(137, 151, 166, 0.28);
     border-radius: 10px;
     background: rgba(255, 255 , 255, 0.92);
@@ -53,6 +53,7 @@
 .form-button {
     width: 100%;
     min-width: 45px;
+    padding: 5px;
     margin-top: 10px;
     border: 0;
     border-radius: 5px;
@@ -82,3 +83,9 @@
 }
 
 
+@media (max-width: 520px) {
+    .form-container {
+        margin-top: 5vh;
+        padding: 24px;
+    }
+}

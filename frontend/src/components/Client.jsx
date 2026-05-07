@@ -9,14 +9,14 @@ function Client({client, onDelete}) {
   3: "Archived",
 };
 
-
+    const statusName = statusMap[client.status];
     const navigate = useNavigate()
 
     return <div className="client-container"  onClick={() => navigate(`/clients/${client.id}/projects`)}>
         <p className="client-name">{client.name}</p>
-        <p className="client-email">{client.email}</p>
-        <p className="client-phone">{client.phone}</p>
-        <p className="client-status">{statusMap[client.status]}</p>
+        <p className="client-email">Email : {client.email}</p>
+        <p className="client-phone">Tel : {client.phone}</p>
+        <p className={`client-status status-${statusName.toLowerCase()}`}>{statusName}</p>
         <button className="delete-button" onClick={(e)=> { e.stopPropagation(); onDelete(client.id);}}> delete </button>
         </div>
 }

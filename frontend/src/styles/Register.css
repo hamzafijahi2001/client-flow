@@ -5,3 +5,7 @@
     font-family: "Roboto", sans-serif;
     line-height: 1;
 }
+
+.login-link p {
+    color: white;
+}

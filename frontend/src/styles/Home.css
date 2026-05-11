@@ -1,116 +1,166 @@
-.clients-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fit,minmax(260px,1fr));
-    gap: 16px;
+.home-page {
+  position: relative;
+  padding-bottom: 120px; /* Space for the floating dock button */
 }
 
-
-.client-container {
-    display:grid;
-    grid-template-columns: 1fr;
-    gap: 10px;
-    min-height: 280px;
-    padding: 0;
-    border: 1px solid rgb(216, 216, 216);
-    border-radius: 10px;
-    background: white;
-    cursor: pointer;
-    transition: 
-        border-color 180ms ease,
-        box-shadow 180ms ease,
-        transform 180ms ease;
-}
-.client-container:hover {
-    border-color: aliceblue;
-    box-shadow: 0 15px 40px rgba(31, 45, 61, 0.1);
-    transform: translateY(-1px);
+/* MOVIE POSTER GRID */
+.clients-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 32px;
+  padding: 20px 0;
 }
 
-
-.client-name,
-.client-email,
-.client-phone,
-.client-status,
-.client-container .delete-button {
-    margin-inline: 15px;
+/* MOVIE POSTER CARD */
+.client-poster {
+  position: relative;
+  aspect-ratio: 2 / 3; /* Movie poster aspect ratio */
+  border-radius: 20px;
+  overflow: hidden;
+  background: #1a1a2e;
+  cursor: pointer;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
 }
 
-.client-container .delete-button {
-    margin-bottom: 16px;
-}
-.delete-button:hover {
-    border-radius: 8px;
-    box-shadow: 0 15px 40px rgba(31, 45, 61, 0.1);
-    background: rgb(255, 71, 71);
-}
-/*
-.client-container p{
-    margin:0
-}*/
-
-
-.client-name{
-    color: black;
-    font-size: 1.25rem;
-    font-weight: 900;
-}
-.client-email,
-.client-phone {
-    color: rgb(106, 106, 106);
-    overflow-wrap: anywhere;
+.client-poster:hover {
+  transform: translateY(-10px) scale(1.03);
+  box-shadow: 0 20px 40px rgba(139, 92, 246, 0.3);
 }
 
-.client-email {
-    margin-top: 5px;
-    font-size: 0.92rem;
+/* Cover Image */
+.poster-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
 }
 
-.client-status {
-    justify-self: start;
-    padding: 7px 10px;
-    border-radius: 1000px;
-    background: rgb(214, 214, 214);
-    color: rgb(71, 71, 193);
-    font-size: 0.8rem;
-    font-weight: 900;
+.client-poster:hover .poster-image {
+  transform: scale(1.1);
 }
 
-.status-lead {
-    background: #fff6d7;
-    color: #946800;
-}
-.status-active {
-    background: rgb(242, 242, 212);
-    color: rgb(43, 135, 25);
-}
-.status-archived {
-    background: #eef1f4;
-    color: #627282;
+/* Gradient Overlay to make text readable */
+.poster-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(15, 17, 26, 0.95) 0%,
+    rgba(15, 17, 26, 0.8) 25%,
+    rgba(15, 17, 26, 0.2) 60%,
+    transparent 100%
+  );
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 24px;
+  transition: background 0.3s ease;
 }
 
-.fab-button {
-    padding: 10px;
-    color: grey;
-    border-radius: 15px;
-    margin-left: auto; 
-    margin-right: 90;
-    background: rgb(86, 86, 192);
-    cursor: pointer;
-    width: 50px;
-    transition: 
-        border-color 180ms ease,
-        box-shadow 180ms ease,
-        transform 180ms ease;
+.client-poster:hover .poster-overlay {
+  background: linear-gradient(
+    to top,
+    rgba(15, 17, 26, 0.95) 0%,
+    rgba(15, 17, 26, 0.9) 40%,
+    rgba(139, 92, 246, 0.4) 100%
+  );
 }
-.fab-button:hover{
-    position: 50 300;
-    border-radius: 8px;
-    box-shadow: 0 15px 40px rgba(31, 45, 61, 0.1);
-    background: rgb(180, 177, 252);
+
+/* Title & Status */
+.poster-title {
+  margin: 0 0 8px 0;
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #fff;
+  line-height: 1.1;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.5);
 }
-@media (max-width: 650px) {
-    .delete-button,
-    .client-status {
-        justify-self: stretch;
-    }
+
+.poster-status {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 16px;
+  backdrop-filter: blur(8px);
+}
+
+.status-lead { background: rgba(245, 158, 11, 0.2); color: #fcd34d; border: 1px solid rgba(245, 158, 11, 0.4); }
+.status-active { background: rgba(16, 185, 129, 0.2); color: #6ee7b7; border: 1px solid rgba(16, 185, 129, 0.4); }
+.status-archived { background: rgba(100, 116, 139, 0.2); color: #cbd5e1; border: 1px solid rgba(100, 116, 139, 0.4); }
+
+/* Details Reveal on Hover */
+.poster-details {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease, opacity 0.3s ease 0.1s;
+}
+
+.client-poster:hover .poster-details {
+  max-height: 150px;
+  opacity: 1;
+}
+
+.poster-contact {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 8px 0;
+  font-size: 0.9rem;
+  color: #a1a1aa;
+}
+
+.poster-contact svg {
+  color: var(--accent-primary);
+}
+
+.poster-actions {
+  margin-top: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* MODERN FLOATING BUTTON (DOCK STYLE) */
+.dock-button-container {
+  position: fixed;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 40;
+}
+
+.dock-add-button {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 32px;
+  border-radius: 999px;
+  background: rgba(15, 17, 26, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.dock-add-button:hover {
+  background: var(--accent-primary);
+  border-color: var(--accent-hover);
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px var(--accent-glow);
+}
+
+.dock-add-button svg {
+  width: 20px;
+  height: 20px;
+  stroke-width: 3px;
 }

@@ -70,7 +70,10 @@ class TaskListCreate(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         if serializer.is_valid():
             project_id = self.kwargs["project_pk"]
-            serializer.save(project_id=project_id)
+            user_emails = self.request.data.get("users", [])
+            task = serializer.save(project_id=project_id)
+            users = User.objects.filter(email__in=user_emails)
+            task.users.set(users)
         else:
             print(serializer.errors)
 

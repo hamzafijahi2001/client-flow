@@ -1,7 +1,7 @@
 .task-tables {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 24px;
+  gap: 8px;
   align-items: start;
 }
 
@@ -142,6 +142,11 @@
   vertical-align: top;
   text-align: right;
 }
+
+.empty-state{
+  margin : 10px 15px
+}
+
 
 @media (max-width: 1024px) {
   .task-tables {

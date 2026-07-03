@@ -26,6 +26,10 @@ class ProjectSerializer(serializers.ModelSerializer):
         extra_kwargs = {"client": {"read_only": True}}
 
 class TaskSerializer(serializers.ModelSerializer):
+    users = serializers.PrimaryKeyRelatedField(
+        many=True,
+        read_only=True
+    )
     class Meta:
         model = Task
         fields = "__all__"

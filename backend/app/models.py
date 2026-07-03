@@ -47,8 +47,8 @@ class Task(models.Model):
     priority = models.IntegerField(
                   choices=priority_choices,
                   default=2)
-    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name="projects")
-    #users = models.ForeignKey(User, on_delete=models.CASCADE, related_name="assigned users")
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name="tasks")
+    users = models.ManyToManyField(User, blank=True, related_name="assigned_users")
     
     def __str__(self):
         return self.title

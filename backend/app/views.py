@@ -40,16 +40,16 @@ class ProjectListCreate(generics.ListCreateAPIView):
         return Project.objects.filter(client_id=client_id,client__username=self.request.user)
     
     def perform_create(self, serializer):
-        if serializer.is_valid():
             client_id = self.kwargs["client_pk"]
             client = get_object_or_404(
                 Client,
                 id=client_id,
                 username=self.request.user
             )
-            serializer.save(client=client)
-        else:
-            print(serializer.errors)
+            user_emails = self.request.data.get("users", [])
+            project = serializer.save(client=client)
+            users = User.objects.filter(email__in=user_emails)
+            project.users.set(users)
 
 class ProjectDelete(generics.DestroyAPIView):
     serializer_class = ProjectSerializer
@@ -68,14 +68,12 @@ class TaskListCreate(generics.ListCreateAPIView):
         return Task.objects.filter(project_id=project_id)
     
     def perform_create(self, serializer):
-        if serializer.is_valid():
-            project_id = self.kwargs["project_pk"]
-            user_emails = self.request.data.get("users", [])
-            task = serializer.save(project_id=project_id)
-            users = User.objects.filter(email__in=user_emails)
-            task.users.set(users)
-        else:
-            print(serializer.errors)
+        project_id = self.kwargs["project_pk"]
+        user_emails = self.request.data.get("users", [])
+        project = get_object_or_404(Project, id=project_id)
+        selected_users= project.users.filter(email__in=user_emails)
+        task = serializer.save(project_id=project_id)
+        task.users.set(selected_users)
 
 class TaskDelete(generics.DestroyAPIView):
     serializer_class = TaskSerializer

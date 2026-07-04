@@ -31,7 +31,8 @@ class Project(models.Model):
                   choices=status_choices,
                   default=2)
     client = models.ForeignKey(Client, on_delete=models.CASCADE, related_name="projects")
-    
+    users = models.ManyToManyField(User, blank=True, related_name="projects")
+
     def __str__(self):
         return self.title
     

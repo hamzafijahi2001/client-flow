@@ -12,6 +12,8 @@ function Projects(){
     const [deadline, setDeadline] = useState("")
     const [status, setStatus] = useState(1)
     const [showCreateForm, setShowCreateForm] = useState(false)
+    const [projectUsers, setProjectUsers] = useState([]);
+    const [userEmail, setUserEmail] = useState("")
 
     const getProject = useCallback(() => {
         api.get(`/api/clients/${clientId}/projects/`)
@@ -32,16 +34,25 @@ function Projects(){
         }).catch((err)=> alert(err))
         
     }
+    const addUserEmail = ()=> {
+        if(!userEmail.trim()) return;
+        if(!projectUsers.includes(userEmail.trim())) {
+            setProjectUsers([...projectUsers, userEmail.trim()]);
+        }
+        setUserEmail("");
+    }
 
     const createProject = (e) =>{
         e.preventDefault()
-        api.post(`/api/clients/${clientId}/projects/`,{ title , description, deadline, status })
+        api.post(`/api/clients/${clientId}/projects/`,{ title , description, deadline, status,users: projectUsers, })
         .then((res)=>{
             if(res.status === 201){ 
                     setTitle("");
                     setDescription("");
                     setDeadline("");
                     setStatus(1);
+                    setProjectUsers([]);
+                    setUserEmail("");
                     setShowCreateForm(false);
                     getProject(); }
             else alert("Failed to create project")
@@ -103,7 +114,21 @@ function Projects(){
                         <input type="datetime-local" id="deadline" name="deadline" className="modern-input" placeholder="Deadline" required value={deadline} onChange={(e)=>setDeadline(e.target.value)} />
                         <label htmlFor="deadline" className="modern-label">Deadline</label>
                     </div>
-                    
+                    <div className="form-group">
+                        <input type="email" className="modern-input" placeholder="User email" value={userEmail} onChange={(e) => setUserEmail(e.target.value)} />
+                        <label className="modern-label">User email</label>
+                    </div>
+
+                    <button type="button" className="submit-btn-modern" onClick={addUserEmail}>
+                        Add user
+                    </button>
+
+                    <div>
+                        {projectUsers.map((email) => (
+                            <p key={email}>{email}</p>
+                        ))}
+                    </div>
+
                     <div className="select-wrapper">
                         <select id="status" className="modern-select" value={status} onChange={(e) => setStatus(e.target.value)}>
                             <option value={1}>Planning</option>

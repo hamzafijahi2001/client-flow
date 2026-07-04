@@ -12,6 +12,8 @@ function Tasks(){
     const [deadline, setDeadline] = useState("")
     const [priority, setPriority] = useState(1)
     const [showCreateForm, setShowCreateForm] = useState(false)
+    const [projectUsers, setProjectUsers] = useState([])
+    const [selectedUsers, setSelectedUsers] = useState([])
     const priorityColumns = [
         { id: 1, label: "Must Have" },
         { id: 2, label: "Should Have" },
@@ -19,6 +21,16 @@ function Tasks(){
         { id: 4, label: "Won't Have" },
     ]
 
+
+    const getProjectUsers = useCallback(()=> {
+        api.get(`/api/clients/${clientId}/projects/`).then((res) => res.data)
+        .then((data)=> {
+            const currentProject = data.find(
+                (project) => Number(project.id) === Number(projectId));
+                if(currentProject) { setProjectUsers(currentProject.users || [])}
+            
+        }).catch((err) =>alert(err));
+    },[clientId, projectId]);
     const getTask = useCallback(() => {
         api.get(`/api/clients/${clientId}/projects/${projectId}/tasks/`)
         .then((res) => res.data)
@@ -27,7 +39,8 @@ function Tasks(){
     }, [clientId, projectId])
     useEffect(()=>{
         getTask();
-    },[getTask])
+        getProjectUsers();
+    },[getTask, getProjectUsers])
 
     const deleteTask = (id) => {
         api.delete(`/api/clients/${clientId}/project/${projectId}/task/delete/${id}/`)
@@ -41,13 +54,14 @@ function Tasks(){
 
     const createTask = (e) =>{
         e.preventDefault()
-        api.post(`/api/clients/${clientId}/projects/${projectId}/tasks/`,{ title , description, deadline, priority })
+        api.post(`/api/clients/${clientId}/projects/${projectId}/tasks/`,{ title , description, deadline, priority,users:selectedUsers })
         .then((res)=>{
             if(res.status === 201){ 
                     setTitle("");
                     setDescription("");
                     setDeadline("");
                     setPriority(1);
+                    setSelectedUsers([]);
                     setShowCreateForm(false);
                     getTask(); }
             else alert("Failed to create task")
@@ -142,6 +156,27 @@ function Tasks(){
                             <option value={2}>Should Have</option>
                             <option value={3}>Could Have</option>
                             <option value={4}>Won't Have</option>
+                        </select>
+                    </div>
+                    <div className="select-wrapper">
+                        <select
+                            multiple
+                            className="modern-select"
+                            value={selectedUsers}
+                            onChange={(e) =>
+                                setSelectedUsers(
+                                    Array.from(
+                                        e.target.selectedOptions,
+                                        option => option.value
+                                    )
+                                )
+                            }
+                        >
+                            {projectUsers.map((email) => (
+                                <option key={email} value={email}>
+                                    {email}
+                                </option>
+                            ))}
                         </select>
                     </div>
                     

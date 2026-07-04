@@ -32,7 +32,7 @@ function Tasks(){
     const deleteTask = (id) => {
         api.delete(`/api/clients/${clientId}/project/${projectId}/task/delete/${id}/`)
         .then((res)=>{
-            if(res.status===204){ alert("Task deleted!")
+            if(res.status===204){ 
             getTask();}
             else alert("Failed to delete task")
         }).catch((err)=> alert(err))
@@ -43,7 +43,7 @@ function Tasks(){
         e.preventDefault()
         api.post(`/api/clients/${clientId}/projects/${projectId}/tasks/`,{ title , description, deadline, priority })
         .then((res)=>{
-            if(res.status === 201){ alert("Task Created!");
+            if(res.status === 201){ 
                     setTitle("");
                     setDescription("");
                     setDeadline("");

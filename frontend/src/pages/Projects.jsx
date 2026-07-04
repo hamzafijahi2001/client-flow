@@ -26,7 +26,7 @@ function Projects(){
     const deleteProject = (id) => {
         api.delete(`/api/clients/${clientId}/project/delete/${id}/`)
         .then((res)=>{
-            if(res.status===204){ alert("Project deleted!")
+            if(res.status===204){ 
             getProject();}
             else alert("Failed to delete project")
         }).catch((err)=> alert(err))
@@ -37,7 +37,7 @@ function Projects(){
         e.preventDefault()
         api.post(`/api/clients/${clientId}/projects/`,{ title , description, deadline, status })
         .then((res)=>{
-            if(res.status === 201){ alert("Project Created!");
+            if(res.status === 201){ 
                     setTitle("");
                     setDescription("");
                     setDeadline("");

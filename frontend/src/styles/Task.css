@@ -1,7 +1,7 @@
 .task-tables {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 8px;
+  gap: 170px;
   align-items: start;
 }
 
@@ -70,6 +70,7 @@
 .task-main-cell {
   padding: 20px;
   width: 60%;
+  marign:200%;
 }
 
 .task-header {
@@ -136,12 +137,44 @@
 .deadline-badge svg {
   color: var(--accent-primary);
 }
-
-.task-action-cell {
+/*
+.delete-button {
   padding: 20px;
   vertical-align: top;
   text-align: right;
+  width: 100%;
+  min-height: 5vh; 
+  border-radius: 16px;
+  background:  rgba(224, 9, 9, 0.548);
+  color: white;
 }
+
+.delete-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 40px rgba(224, 9, 9, 0.6);
+  filter: brightness(1.1);
+}
+*/
+
+
+
+.delete-button {
+  padding: 12px 28px;
+  border-radius: 99px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: white;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  transform:scale(0.8);
+  backdrop-filter: blur(10px);
+}
+
+.delete-button:hover {
+  background: rgba(224, 9, 9, 0.6);
+  transform: scale(0.8) translateY(-2px);
+}
+
 
 .empty-state{
   margin : 10px 15px

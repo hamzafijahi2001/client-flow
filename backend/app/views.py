@@ -29,6 +29,11 @@ class ClientDelete(generics.DestroyAPIView):
         user = self.request.user
         return Client.objects.filter(username=user)
 
+class ClientUpdate(generics.RetrieveUpdateAPIView):
+    serializer_class = ClientSerializer
+    permission_classes = [IsAuthenticated]
+    def get_queryset(self):
+        return Client.objects.filter(username=self.request.user)
 
 
 class ProjectListCreate(generics.ListCreateAPIView):
@@ -59,6 +64,14 @@ class ProjectDelete(generics.DestroyAPIView):
         client_id = self.kwargs["client_pk"]
         return Project.objects.filter(client_id=client_id)
 
+class ProjectUpdate(generics.RetrieveUpdateAPIView):
+    serializer_class = ProjectSerializer
+    permission_classes = [IsAuthenticated]
+    def get_queryset(self):
+        client_id = self.kwargs["client_pk"]
+
+        return Project.objects.filter( client_id=client_id, client__username=self.request.user)
+
 class TaskListCreate(generics.ListCreateAPIView):
     serializer_class = TaskSerializer
     permission_classes = [IsAuthenticated]
@@ -82,6 +95,13 @@ class TaskDelete(generics.DestroyAPIView):
     def get_queryset(self):
         project_id = self.kwargs["project_pk"]
         return Task.objects.filter(project_id=project_id)
+
+class TaskUpdate(generics.RetrieveUpdateAPIView):
+    serializer_class = TaskSerializer
+    permission_classes = [IsAuthenticated]
+    def get_queryset(self):
+        project_id = self.kwargs["project_pk"]
+        return Task.objects.filter( project_id=project_id, project__username=self.request.user)
 
 class CreateUserView(generics.CreateAPIView):
     queryset = User.objects.all()
